@@ -1,68 +1,36 @@
 #!/usr/bin/env python
+"""
+角色扮演系统主入口文件
+"""
+
 import sys
 import warnings
-
-from datetime import datetime
-
-from testroleplay.crew import Testroleplay
+from .cli import main as cli_main
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
-# This main file is intended to be a way for you to run your
-# crew locally, so refrain from adding unnecessary logic into this file.
-# Replace with inputs you want to test with, it will automatically
-# interpolate any tasks and agents information
 
 def run():
     """
-    Run the crew.
+    运行角色扮演系统
     """
-    inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
-    }
-    
-    try:
-        Testroleplay().crew().kickoff(inputs=inputs)
-    except Exception as e:
-        raise Exception(f"An error occurred while running the crew: {e}")
+    cli_main()
 
 
-def train():
+def main():
     """
-    Train the crew for a given number of iterations.
+    主函数
     """
-    inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
-    }
-    try:
-        Testroleplay().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+    if len(sys.argv) > 1:
+        command = sys.argv[1].lower()
+        if command in ['--help', '-h', 'help']:
+            print("角色扮演聊天系统")
+            print("使用方法: python -m testroleplay.main")
+            print("或直接运行: python main.py")
+            return
 
-    except Exception as e:
-        raise Exception(f"An error occurred while training the crew: {e}")
+    run()
 
-def replay():
-    """
-    Replay the crew execution from a specific task.
-    """
-    try:
-        Testroleplay().crew().replay(task_id=sys.argv[1])
 
-    except Exception as e:
-        raise Exception(f"An error occurred while replaying the crew: {e}")
-
-def test():
-    """
-    Test the crew execution and returns the results.
-    """
-    inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
-    }
-    
-    try:
-        Testroleplay().crew().test(n_iterations=int(sys.argv[1]), eval_llm=sys.argv[2], inputs=inputs)
-
-    except Exception as e:
-        raise Exception(f"An error occurred while testing the crew: {e}")
+if __name__ == "__main__":
+    main()

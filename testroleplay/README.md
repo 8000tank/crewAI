@@ -1,54 +1,153 @@
-# Testroleplay Crew
+# 角色扮演聊天系统
 
-Welcome to the Testroleplay Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+基于 CrewAI 框架的多Agent角色扮演聊天系统。支持复杂的剧情设定、对抗性目标体系和沉浸式对话体验。
 
-## Installation
+## 功能特点
 
-Ensure you have Python >=3.10 <3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+- 🎭 **多Agent协作**: 编剧、对话、裁判三个AI Agent分工协作
+- 🎯 **对抗目标体系**: 三阶段对抗性目标，营造剧情张力
+- 💬 **沉浸式对话**: 结构化对话响应，包含旁白和内心独白
+- 🎬 **多样剧情**: 支持多种剧情类型和自定义场景
+- 🔄 **状态管理**: 实时追踪游戏进度和目标完成情况
 
-First, if you haven't already, install uv:
+## 安装和运行
+
+### 1. 环境要求
+
+- Python >= 3.10
+- OpenAI API Key 或 Google AI API Key
+
+### 2. 安装依赖
 
 ```bash
-pip install uv
-```
+# 克隆项目
+cd testroleplay
 
-Next, navigate to your project directory and install the dependencies:
-
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
+# 安装依赖
+pip install -r requirements.txt
+# 或使用 crewai 命令
 crewai install
 ```
-### Customizing
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+### 3. 配置API密钥
 
-- Modify `src/testroleplay/config/agents.yaml` to define your agents
-- Modify `src/testroleplay/config/tasks.yaml` to define your tasks
-- Modify `src/testroleplay/crew.py` to add your own logic, tools and specific args
-- Modify `src/testroleplay/main.py` to add custom inputs for your agents and tasks
-
-## Running the Project
-
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
+设置环境变量：
 
 ```bash
-$ crewai run
+# 使用 OpenAI
+export OPENAI_API_KEY="your-openai-api-key"
+
+# 或使用 Google Gemini
+export GOOGLE_API_KEY="your-google-api-key"
 ```
 
-This command initializes the TestRoleplay Crew, assembling the agents and assigning them tasks as defined in your configuration.
+### 4. 运行系统
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+```bash
+# 方式1: 直接运行演示脚本
+python roleplay_demo.py
 
-## Understanding Your Crew
+# 方式2: 使用模块方式
+python -m testroleplay.main
 
-The TestRoleplay Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
+# 方式3: 使用 crewai 命令
+crewai run
+```
 
-## Support
+## 使用指南
 
-For support, questions, or feedback regarding the Testroleplay Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
+### 游戏流程
 
-Let's create wonders together with the power and simplicity of crewAI.
+1. **选择剧情**: 从预设剧情中选择或自定义剧情类型
+2. **查看设定**: 了解角色背景和三阶段目标体系
+3. **开始对话**: 与AI角色进行沉浸式对话
+4. **完成目标**: 逐步实现阶段性目标，推进剧情发展
+
+### 命令说明
+
+游戏中可使用以下命令：
+
+- `/status` - 查看当前游戏状态和目标进度
+- `/help` - 显示帮助信息
+- `/restart` - 重新开始游戏
+- `/quit` - 退出游戏
+
+### 目标机制
+
+- **对抗关系**: 用户和AI的目标相互对抗，营造剧情冲突
+- **完成顺序**: AI必须先完成阶段目标，用户才能完成同阶段目标
+- **三个阶段**: 每个剧情包含三个递进的阶段目标
+- **智能判断**: 由裁判Agent判断目标完成情况
+
+## 系统架构
+
+```
+角色扮演系统
+├── 数据模型 (models.py)
+│   ├── GameContext - 游戏上下文
+│   ├── DialogueResponse - 对话响应
+│   └── StageObjective - 阶段目标
+├── Agent定义 (agents.py)
+│   ├── 编剧Agent - 剧情和目标设计
+│   ├── 对话Agent - AI角色扮演
+│   └── 裁判Agent - 目标判断和进度控制
+├── 主控制器 (controller.py)
+│   └── RolePlayController - 游戏流程控制
+└── 用户界面 (cli.py)
+    └── 命令行交互界面
+```
+
+## 示例剧情
+
+系统预设了多种剧情类型：
+
+- **办公室权力游戏**: 上司与秘书的职场博弈
+- **高校师生关系**: 教授与学生的学术互动
+- **医院情缘**: 医生与护士的专业合作
+- **商业谈判**: 总裁与助理的商务往来
+
+## 自定义和扩展
+
+### 添加新剧情
+
+1. 在 `agents.py` 中的 `create_scenario_init_task` 函数中添加新的剧情类型
+2. 确保剧情包含对抗性的三阶段目标设计
+
+### 调整Agent行为
+
+1. 修改 `agents.py` 中的Agent定义和prompt
+2. 调整对话生成和目标判断的逻辑
+
+### 扩展功能
+
+- 添加持久化存储（目前为MVP版本，使用内存存储）
+- 集成更多LLM模型
+- 添加图形用户界面
+- 支持多人游戏模式
+
+## 技术特点
+
+- **轻量级设计**: MVP版本专注核心功能，无外部依赖
+- **CrewAI框架**: 充分利用多Agent协作能力
+- **结构化输出**: 清晰的数据格式，便于扩展
+- **错误处理**: 完善的异常处理和降级机制
+
+## 故障排除
+
+### 常见问题
+
+1. **API密钥错误**: 确保正确设置环境变量
+2. **网络连接问题**: 检查网络连接和API服务状态
+3. **依赖安装失败**: 尝试使用 `pip install --upgrade` 更新包
+
+### 调试模式
+
+设置 `verbose=True` 可查看详细的Agent执行日志。
+
+## 贡献
+
+欢迎提交Issues和Pull Requests来改进系统功能。
+
+## 许可证
+
+本项目基于 MIT 许可证开源。
