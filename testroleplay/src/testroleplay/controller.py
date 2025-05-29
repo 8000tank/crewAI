@@ -7,7 +7,7 @@ from typing import Optional
 from crewai import Crew
 
 from .models import GameContext, DialogueResponse, StageObjective, ObjectiveStatus
-from .agents import (
+from .agents_nsfw import (
     create_script_writer, create_dialogue_agent, create_judge_agent,
     create_scenario_init_task, create_dialogue_task, create_judge_task
 )

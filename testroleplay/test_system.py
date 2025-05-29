@@ -101,7 +101,7 @@ def test_agent_creation():
     print("\n🤖 测试Agent创建...")
 
     try:
-        from testroleplay.agents import create_script_writer, create_dialogue_agent, create_judge_agent
+        from testroleplay.agents_nsfw import create_script_writer, create_dialogue_agent, create_judge_agent
 
         script_writer = create_script_writer()
         print("✅ 编剧Agent创建成功")
