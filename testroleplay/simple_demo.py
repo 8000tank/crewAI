@@ -48,7 +48,7 @@ def simple_demo():
 
         # 简单对话测试
         print(f"\n💬 开始对话测试...")
-        response = controller.process_user_message("你好，小雨，这么晚还在加班辛苦了")
+        response = controller.process_user_message("Hi小雨，这么晚还在加班辛苦了，话说你今天穿的真性感")
 
         print(f"\n🤖 {game_context.ai_character}：{response.ai_reply}")
         print(f"\n🎭 旁白：{response.narration}")
